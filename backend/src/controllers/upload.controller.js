@@ -75,8 +75,18 @@ const uploadInvestors = async (req, res, next) => {
           minInvestment: parseInt(row.minInvestment) || 0,
           maxInvestment: parseInt(row.maxInvestment) || 0,
           stage: row.stage ? row.stage.split(',').map(s => s.trim()) : [],
-          bio: row.bio || '',
-          contact: row.contact || ''
+          bio: row.bio || row.description || '',
+          contact: row.contact || '',
+          type: row.type || 'vc',
+          tps: row.tps === 'true' || row.tps === '1' || row.tps === 'TRUE',
+          lips: row.lips === 'true' || row.lips === '1' || row.lips === 'TRUE',
+          tops: row.tops === 'true' || row.tops === '1' || row.tops === 'TRUE',
+          fundDescription: row.fundDescription || '',
+          websiteUrl: row.websiteUrl || '',
+          email: row.email || '',
+          totalInvestment: parseFloat(row.totalInvestment) || 0,
+          avgInvestment: parseFloat(row.avgInvestment) || 0,
+          exitCount: parseInt(row.exitCount) || 0
         });
         successCount++;
       } catch (err) {
