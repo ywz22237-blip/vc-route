@@ -43,7 +43,9 @@ const createInvestor = async (req, res, next) => {
     const {
       name, company, position, investments, successRate,
       portfolio, focusArea, minInvestment, maxInvestment,
-      stage, bio, contact
+      stage, bio, description, contact,
+      type, tps, lips, tops, fundDescription, websiteUrl, email,
+      totalInvestment, avgInvestment, exitCount
     } = req.body;
 
     if (!name || !company) {
@@ -60,8 +62,18 @@ const createInvestor = async (req, res, next) => {
       minInvestment: minInvestment || 0,
       maxInvestment: maxInvestment || 0,
       stage: stage || [],
-      bio: bio || '',
-      contact: contact || ''
+      bio: bio || description || '',
+      contact: contact || '',
+      type: type || 'vc',
+      tps: tps || false,
+      lips: lips || false,
+      tops: tops || false,
+      fundDescription: fundDescription || '',
+      websiteUrl: websiteUrl || '',
+      email: email || '',
+      totalInvestment: totalInvestment || 0,
+      avgInvestment: avgInvestment || 0,
+      exitCount: exitCount || 0
     });
 
     res.status(201).json({

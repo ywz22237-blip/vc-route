@@ -31,7 +31,17 @@ CREATE TABLE IF NOT EXISTS investors (
   max_investment BIGINT DEFAULT 0,
   stage TEXT[] DEFAULT '{}',
   bio TEXT DEFAULT '',
-  contact VARCHAR(200) DEFAULT ''
+  contact VARCHAR(200) DEFAULT '',
+  type VARCHAR(50) DEFAULT 'vc',
+  tps BOOLEAN DEFAULT FALSE,
+  lips BOOLEAN DEFAULT FALSE,
+  tops BOOLEAN DEFAULT FALSE,
+  fund_description TEXT DEFAULT '',
+  website_url VARCHAR(300) DEFAULT '',
+  email VARCHAR(200) DEFAULT '',
+  total_investment NUMERIC(10,1) DEFAULT 0,
+  avg_investment NUMERIC(10,1) DEFAULT 0,
+  exit_count INTEGER DEFAULT 0
 );
 
 -- Startups 테이블

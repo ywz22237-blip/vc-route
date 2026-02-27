@@ -124,8 +124,18 @@ const investors = {
       min_investment: investor.minInvestment || 0,
       max_investment: investor.maxInvestment || 0,
       stage: investor.stage || [],
-      bio: investor.bio || '',
-      contact: investor.contact || ''
+      bio: investor.bio || investor.description || '',
+      contact: investor.contact || '',
+      type: investor.type || 'vc',
+      tps: investor.tps || false,
+      lips: investor.lips || false,
+      tops: investor.tops || false,
+      fund_description: investor.fundDescription || '',
+      website_url: investor.websiteUrl || '',
+      email: investor.email || '',
+      total_investment: investor.totalInvestment || 0,
+      avg_investment: investor.avgInvestment || 0,
+      exit_count: investor.exitCount || 0
     };
     const { data, error } = await supabase.from('investors').insert(dbInvestor).select().single();
     if (error) throw error;
@@ -144,7 +154,18 @@ const investors = {
     if (updates.maxInvestment !== undefined) dbUpdates.max_investment = updates.maxInvestment;
     if (updates.stage !== undefined) dbUpdates.stage = updates.stage;
     if (updates.bio !== undefined) dbUpdates.bio = updates.bio;
+    if (updates.description !== undefined) dbUpdates.bio = updates.description;
     if (updates.contact !== undefined) dbUpdates.contact = updates.contact;
+    if (updates.type !== undefined) dbUpdates.type = updates.type;
+    if (updates.tps !== undefined) dbUpdates.tps = updates.tps;
+    if (updates.lips !== undefined) dbUpdates.lips = updates.lips;
+    if (updates.tops !== undefined) dbUpdates.tops = updates.tops;
+    if (updates.fundDescription !== undefined) dbUpdates.fund_description = updates.fundDescription;
+    if (updates.websiteUrl !== undefined) dbUpdates.website_url = updates.websiteUrl;
+    if (updates.email !== undefined) dbUpdates.email = updates.email;
+    if (updates.totalInvestment !== undefined) dbUpdates.total_investment = updates.totalInvestment;
+    if (updates.avgInvestment !== undefined) dbUpdates.avg_investment = updates.avgInvestment;
+    if (updates.exitCount !== undefined) dbUpdates.exit_count = updates.exitCount;
     const { data, error } = await supabase.from('investors').update(dbUpdates).eq('id', id).select().single();
     if (error) throw error;
     return toInvestorObj(data);
@@ -181,18 +202,32 @@ const investors = {
 
 function toInvestorObj(row) {
   if (!row) return null;
+  const portfolioArr = row.portfolio || [];
   return {
     id: row.id,
     name: row.name,
     company: row.company,
+    avatar: row.name ? row.name[0] : '?',
     position: row.position,
     investments: row.investments,
     successRate: row.success_rate,
-    portfolio: row.portfolio,
+    type: row.type || 'vc',
+    stages: row.stage || [],
+    tps: row.tps || false,
+    lips: row.lips || false,
+    tops: row.tops || false,
+    description: row.bio || '',
+    fundDescription: row.fund_description || '',
+    email: row.email || row.contact || '',
+    websiteUrl: row.website_url || '',
+    logoUrl: '',
+    totalInvestment: parseFloat(row.total_investment) || 0,
+    portfolio: portfolioArr.length,
+    avgInvestment: parseFloat(row.avg_investment) || 0,
+    exitCount: row.exit_count || 0,
     focusArea: row.focus_area,
     minInvestment: row.min_investment,
     maxInvestment: row.max_investment,
-    stage: row.stage,
     bio: row.bio,
     contact: row.contact
   };
